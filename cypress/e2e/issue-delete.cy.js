@@ -21,7 +21,7 @@ describe('Issue delete', () => {
     cy.contains('button', 'Delete issue').click()
 
     // Assertion
-    cy.contains('div.sc-kAzzGY.dlGGql', 'Are you sure you want to delete this issue?')
+    cy.contains('Are you sure you want to delete this issue?')
       .should('not.exist');
     cy.reload()
     cy.get('@firstIssueText').then((firstIssueText) => {
@@ -36,7 +36,7 @@ describe('Issue delete', () => {
     cy.contains('button', 'Cancel').click()
 
     // Assertion
-    cy.contains('div.sc-kAzzGY.dlGGql', 'Are you sure you want to delete this issue?')
+    cy.contains('Are you sure you want to delete this issue?')
       .should('not.exist');
     cy.reload()
     cy.get('@firstIssueText').then((firstIssueText) => {
