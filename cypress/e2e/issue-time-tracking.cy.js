@@ -7,7 +7,6 @@ it('Time estimation adding, editing, deleting', () => {
 
     cy.visit('/');
     cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
-        //System will already open issue creating modal  
         cy.visit(url + '/board?modal-issue-create=true');
         cy.get('[data-testid="modal:issue-create"]').within(() => {
             cy.get('[data-testid="select:type"]').click();
@@ -87,15 +86,5 @@ it('Time estimation adding, editing, deleting', () => {
         cy.contains('2h logged').should('not.exist')
         cy.contains('5h remaining').should('not.exist')
 
-
-        //cy.visit('/');
-        //cy.url().should('eq', `${Cypress.env('baseUrl')}project/board`).then((url) => {
-        //cy.visit(url + '/board');
-        //cy.contains('This is an issue of type: Task.').click();
-        //cy.contains('Time Tracking').next().click()
-        //cy.contains('Time spent (hours)').next().click().should('have.value', '');
-        //cy.contains('button', 'Done').click()
-        //cy.contains('4h logged').should('be.visible')
-        //cy.reload()
     })
 })
