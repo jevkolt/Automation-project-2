@@ -14,16 +14,6 @@ class IssueModal {
         this.cancelDeletionButtonName = "Cancel";
         this.confirmationPopup = '[data-testid="modal:confirm"]';
         this.closeDetailModalButton = '[data-testid="icon:close"]';
-        //below added by me 
-        this.addComment = 'div[class="sc-bMVAic cnatGv"]'
-        this.commentTextBox = 'textarea[placeholder="Add a comment..."]'
-        this.saveCommentButton = 'button[class="sc-bwzfXH dIxFno sc-esOvli keRYgb"]'
-        this.editCommentButton = 'div[class="sc-daURTG bBZxGK"]'
-        this.deleteCommentButton = 'div[class="sc-bXGyLb dvzGmn"]'
-        this.commentList = '[data-testid="issue-comment"]'
-        this.deleteConfirmationPopup = 'div[class="sc-fjdhpX fcTZzd sc-cSHVUG knKKwp"]'
-        this.deleteConfirmButton = 'button[class="sc-bwzfXH dIxFno sc-kGXeez bLOzZQ"]'
-
     }
 
     getIssueModal() {
@@ -79,24 +69,24 @@ class IssueModal {
         });
     }
 
-    ensureIssueIsVisibleOnBoard(issueTitle) {
+    ensureIssueIsVisibleOnBoard(issueTitle){
         cy.get(this.issueDetailModal).should('not.exist');
         cy.reload();
         cy.contains(issueTitle).should('be.visible');
     }
 
-    ensureIssueIsNotVisibleOnBoard(issueTitle) {
+    ensureIssueIsNotVisibleOnBoard(issueTitle){
         cy.get(this.issueDetailModal).should('not.exist');
         cy.reload();
         cy.contains(issueTitle).should('not.exist');
     }
 
-    clickDeleteButton() {
+    clickDeleteButton(){
         cy.get(this.deleteButton).click();
         cy.get(this.confirmationPopup).should('be.visible');
     }
 
-    confirmDeletion() {
+    confirmDeletion(){
         cy.get(this.confirmationPopup).within(() => {
             cy.contains(this.deleteButtonName).click();
         });
@@ -104,7 +94,7 @@ class IssueModal {
         cy.get(this.backlogList).should('be.visible');
     }
 
-    cancelDeletion() {
+    cancelDeletion(){
         cy.get(this.confirmationPopup).within(() => {
             cy.contains(this.cancelDeletionButtonName).click();
         });
@@ -112,38 +102,9 @@ class IssueModal {
         cy.get(this.issueDetailModal).should('be.visible');
     }
 
-    closeDetailModal() {
+    closeDetailModal(){
         cy.get(this.issueDetailModal).get(this.closeDetailModalButton).first().click();
         cy.get(this.issueDetailModal).should('not.exist');
-    }
-
-    //issue comments - 'Should create,edit and delete comment successfully'
-    createComment(newComment) {
-        this.getIssueDetailModal().within(() => {
-            cy.get(this.addComment).click()
-            cy.get(this.commentTextBox).type(newComment);
-            cy.get(this.saveCommentButton).click().should('not.exist');
-            cy.get(this.addComment).should('exist');
-            cy.get(this.commentList).should('contain', newComment)
-        });
-    }
-
-    editComment(editedComment) {
-        cy.get(this.commentList).first().within(() => {
-            cy.get(this.editCommentButton).click().should('not.exist');
-        })
-        cy.get(this.commentTextBox).clear().type(editedComment);
-        cy.get(this.saveCommentButton).click().should('not.exist');
-        cy.get(this.commentList).should('contain', editedComment);
-    }
-
-    deleteComment(editedComment) {
-        cy.get(this.commentList).first().within(() => {
-            cy.get(this.deleteCommentButton).click()
-        })
-        cy.get(this.deleteConfirmationPopup).should('be.visible')
-        cy.get(this.deleteConfirmButton).click().should('not.exist');
-        this.getIssueDetailModal().contains(editedComment).should('not.exist');
     }
 }
 
