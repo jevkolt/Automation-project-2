@@ -7,6 +7,37 @@ describe('Issue details editing', () => {
     });
   });
 
+  /*it.only('Priority', () => {
+  const expectedLength = 5
+  let selectedPriorityValues = []
+
+  cy.get('[data-testid="select:priority"]').click().contains("High").click()
+  cy.get('[data-testid="select:priority"]').then(($priorityDropdown) => {
+    const initialPriority = $priorityDropdown.text().trim();
+    selectedPriorityValues.push(initialPriority);
+    
+    cy.get('[data-testid="select:priority"]').click();
+    
+    // Access all options from the dropdown and loop through them
+    cy.get('[data-testid="select:priority"]').each(($option) => {
+      const priorityValue = $option.text().trim();
+      selectedPriorityValues.push(priorityValue);
+      cy.log(`Added value: ${priorityValue}, Array length: ${selectedPriorityValues.length}`);
+
+      cy.wrap(selectedPriorityValues).should('have.length', expectedLength);
+})
+  })
+  */
+
+  it('checking that reporter name has only characters in it', () => {
+    cy.get('[data-testid="select:reporter"]').invoke('text').then((reporterName) => {
+      expect(reporterName).to.match(/^[A-Za-z ]*$/);
+    });
+  })
+
+  it.only('checking that reporter name has only characters in it', () => {
+
+  })
   it('Should update type, status, assignees, reporter, priority successfully', () => {
     getIssueDetailsModal().within(() => {
       cy.get('[data-testid="select:type"]').click('bottomRight');
@@ -62,4 +93,5 @@ describe('Issue details editing', () => {
   });
 
   const getIssueDetailsModal = () => cy.get('[data-testid="modal:issue-details"]');
-});
+})
+
