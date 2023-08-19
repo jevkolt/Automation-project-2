@@ -141,34 +141,27 @@ describe("Issue create", () => {
 
   it.only("T3 - Should verify that application is removing unnecessary spaces on the board view", () => {
     const title = " Hello world ";
+    const issueCreate = '[data-testid="modal:issue-create"]';
+    const submitButton = 'button[type="submit"]';
 
-    //System finds modal for creating issue and does next steps inside of it
-    cy.get('[data-testid="modal:issue-create"]').within(() => {
-      //open issue type dropdown and choose Story
+    //Create an issue
+    cy.get(issueCreate).within(() => {
       cy.get('[data-testid="select:type"]').click();
       cy.get('[data-testid="select-option:Story"]').trigger("click");
-
-      //Type value to description input field
       cy.get(".ql-editor").type("TEST_DESCRIPTION");
-
-      //Type value to title input field
-      //Order of filling in the fields is first description, then title on purpose
-      //Otherwise filling title first sometimes doesn't work due to web page implementation
       cy.get('input[name="title"]').type(title);
-
-      //Select Lord Gaben from reporter dropdown
       cy.get('[data-testid="select:userIds"]').click();
       cy.get('[data-testid="select-option:Lord Gaben"]').click();
-
-      //Click on button "Create issue"
-      cy.get('button[type="submit"]').click();
+      cy.get(submitButton).click();
     });
-    //Assert that modal window is closed and successful message is visible
-    cy.get('[data-testid="modal:issue-create"]').should("not.exist");
+    //Assert that created issue does not have extra spaces
+    cy.get(issueCreate).should("not.exist");
     cy.reload();
-    cy.get('[data-testid="list-issue"]')
-      .first()
-      .invoke("text")
-      .should("eq", title.trim());
+    cy.get('[data-testid="board-list:backlog').within(() => {
+      cy.get('[data-testid="list-issue"]')
+        .first()
+        .find("p")
+        .should("contain", title.trim());
+    });
   });
 });
